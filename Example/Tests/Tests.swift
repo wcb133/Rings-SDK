@@ -1,5 +1,5 @@
 import XCTest
-import Rings-SDK
+//import Rings-SDK
 
 class Tests: XCTestCase {
     

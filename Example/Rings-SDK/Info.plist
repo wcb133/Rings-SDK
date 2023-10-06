@@ -35,5 +35,9 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>蓝牙权限用于扫描、添加和使用蓝牙设备，我们不会收集您的个人数据</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>蓝牙权限用于扫描、添加和使用蓝牙设备，我们不会收集您的个人数据</string>
 </dict>
 </plist>
