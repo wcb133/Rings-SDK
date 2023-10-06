@@ -336,6 +336,7 @@ SWIFT_CLASS("_TtC8RingsSDK11RingManager")
 
 
 
+
 @class CBPeripheral;
 @class CBService;
 @class CBCharacteristic;

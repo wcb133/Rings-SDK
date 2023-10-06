@@ -14,6 +14,7 @@ import QMUIKit
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+//        RingManager.shared.caculateSleepData(targetDate: <#T##Date#>)
     }
 
     @IBAction func startOrStopScanAction(_ sender: UIButton) {
