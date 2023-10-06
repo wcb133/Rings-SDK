@@ -1,0 +1,16 @@
+PODS:
+  - Rings-SDK (0.1.0)
+
+DEPENDENCIES:
+  - Rings-SDK (from `../`)
+
+EXTERNAL SOURCES:
+  Rings-SDK:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Rings-SDK: d642218b200b8f2646cc5a2fabf13549f1cd6478
+
+PODFILE CHECKSUM: 3c3d3ddfce39d4da293f8cd6d0312ef724577de8
+
+COCOAPODS: 1.13.0
