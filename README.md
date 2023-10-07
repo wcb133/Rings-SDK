@@ -352,68 +352,90 @@ RingManager.shared.reset { res in
 ##### 固件升级，参数fileUrl为固件文件所在的本地路径，升级进度以及结果通过handle进行回调，
 
 ```Swift
-let distance = RingManager.shared.calculateDistance(steps:100,stepSize:80)
+if let path = Bundle.main.path(forResource: "otafileName", ofType: nil) {
+    let url = URL(fileURLWithPath: path)
+    RingManager.shared.startOTA(url) { res in
+        switch res {
+        case .start:
+            print("开始升级 =====>")
+        case .progress(let value):
+            print("升级进度 =====>\(value)")
+        case .success:
+            print("升级成功 =====>")
+        case .fail(let errorString):
+            print("升级失败 =====>\(errorString)")
+        }
+    }
+}
+```
+
+### 数据库管理类RingDBManager相关
+使用 func readDatas(progressBlock: @escaping (Double, RingDataModel)->Void,
+                   resultBlock: @escaping (Result<ReadDataResult, ReadError>)->Void)从设备中获取到的本地历史数据，都会被保存到本地数据库中，访问数据库需要使用RingDBManager类，内部提供了一个单例对象用来操作相关数据，单例对象可通过RingDBManager.shared来获取，以下是相关的API说明。
+
+##### 从数据库中获取指定时间到目前为止的所有历史数据，timestamp参数为10位的时间戳
+
+```Swift
+public func getObjects(from timestamp:TimeInterval) -> [RingDataModel]
+```
+
+##### 从数据库中获取某一天的历史数据（获取到的是该日期当天0时到24时的数据）
+
+```Swift
+public func getObjects(of date:Date) -> [RingDataModel]
+```
+
+##### 从数据库中获取距离当前时间最近的一条历史数据
+
+```Swift
+public func getLatestObject() -> RingDataModel?
+```
+
+##### 从数据库中获取某一天的睡眠数据(获取到的是该日期前一天18时到该日期18时的数据)，该部分接口得到的数据主要用于睡眠的计算
+
+```Swift
+public func getSleepObjects(of date:Date) -> [RingDataModel]
+```
+
+##### 删除本地数据库所有历史数据
+
+```Swift
+public func deleteAll() -> Bool
+```
+
+##### 删除从指定时间到目前为止的所有历史数据，timestamp参数为10位的时间戳
+
+```Swift
+public func deleteAllBeforeTimestamp(timestamp:TimeInterval) -> Bool
 ```
 
 ### 逻辑算法相关
+
+该部分代码在RingManager类中，使用RingManager.shared获取单例，然后调用相关API即可
+
 ##### 步行距离计算，steps参数为步数，stepSize参数为步长，单位为厘米(cm)，返回结果为距离，单位为米(m)
 
 ```Swift
-let distance = RingManager.shared.calculateDistance(steps:100,stepSize:80)
+func calculateDistance(steps:Int,stepSize:Int) -> Float
 ```
 
-##### 睡眠时间计算
+##### 睡眠时间计算，获取指定日期的睡眠数据及零星睡眠数据。返回值是一个元祖，元祖的第一个元素($0.0)是睡眠数据集合，第二个元素($0.1)是一个二维数组，是多个零星睡眠段的集合。$0.0数组中的第一个数据点的时间为入睡时间，最后一个数据点的时间为醒来时间，中间的各个数据点时间差累加即为睡眠时间。零星睡眠时长计算同理，使用$0.1数组中的数据分段计算即可。
 
 ```Swift
-RingManager.shared.clearRingData { res in
-                switch res {
-                case .success(let isSuccess):
-                    print("结果=====>\(isSuccess)")
-                case .failure(let failure):
-                    print("失败=====>\(failure)")
-                }
-            }
+func caculateSleepData(targetDate: Date) -> ([RingDataModel], [[RingDataModel]])
 ```
 
-##### 删除全部本地数据历史记录
+##### 获取睡眠时长，传入睡眠时间数据点集合，即可得出睡眠时长，返回睡眠时长单位为分钟(min)
 
 ```Swift
-RingManager.shared.clearRingData { res in
-                switch res {
-                case .success(let isSuccess):
-                    print("结果=====>\(isSuccess)")
-                case .failure(let failure):
-                    print("失败=====>\(failure)")
-                }
-            }
+func calculateSleepTimes(sleepDatas:[RingDataModel]) -> Int
 ```
 
-##### 删除全部本地数据历史记录
-
+### 日志配置
+##### 设置日志保存路径，默认保存在沙盒的Document中。可通过以下API修改默认保存路径
 ```Swift
-RingManager.shared.clearRingData { res in
-                switch res {
-                case .success(let isSuccess):
-                    print("结果=====>\(isSuccess)")
-                case .failure(let failure):
-                    print("失败=====>\(failure)")
-                }
-            }
+func configLogPath(directoryPath: String = defaultLogDirectoryPath)
 ```
-
-##### 删除全部本地数据历史记录
-
-```Swift
-RingManager.shared.clearRingData { res in
-                switch res {
-                case .success(let isSuccess):
-                    print("结果=====>\(isSuccess)")
-                case .failure(let failure):
-                    print("失败=====>\(failure)")
-                }
-            }
-```
-
 
 ## Author
 
