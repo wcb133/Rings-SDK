@@ -47,7 +47,7 @@ import RingsSDK
 
 ## API说明
 ### 设备连接相关
-##### 搜索附近的蓝牙设备，开始搜索后可通过回调获取搜索到的设备列表，也可通过 RingManager.shared.devices属性获取当前搜索到的设备
+#### 搜索附近的蓝牙设备，开始搜索后可通过回调获取搜索到的设备列表，也可通过 RingManager.shared.devices属性获取当前搜索到的设备
 
 ```Swift
 RingManager.shared.startScan { devices in
@@ -55,13 +55,13 @@ RingManager.shared.startScan { devices in
 }
 ```
 
-##### 停止搜索附近的蓝牙设备，停止搜索不会清空已搜索到的设备列表，即不会清空RingManager.shared.devices
+#### 停止搜索附近的蓝牙设备，停止搜索不会清空已搜索到的设备列表，即不会清空RingManager.shared.devices
 
 ```Swift
 RingManager.shared.stopScan()
 ```
 
-##### 通过设备的uuid来连接指定设备，uuid由搜索到的设备模型DeviceInfo中获取
+#### 通过设备的uuid来连接指定设备，uuid由搜索到的设备模型DeviceInfo中获取
 
 ```Swift
 RingManager.shared.startConnect(deviceUUID: "uuidString", resultBlock: { res in
@@ -74,15 +74,37 @@ RingManager.shared.startConnect(deviceUUID: "uuidString", resultBlock: { res in
         })
 ```
 
-##### 断开当前设备的连接
+#### 断开当前设备的连接
 
 ```Swift
 RingManager.shared.disconnect()
 ```
 
+#### 获取当前已连接的设备
+
+```Swift
+let currentDevice = RingManager.shared.currentDevice
+```
+
+#### 获取设备连接状态
+
+```Swift
+let isDidConnect = RingManager.shared.isDidConnect
+```
+
+    
+#### 设备连接状态变化监听
+
+```Swift
+RingManager.shared.connectStateChangeBlock = { isConnected in
+            print("是否已连接 ========\(isConnected)")
+            
+        }
+```
+
 ### 设备通讯相关
 
-##### 同步时间
+#### 同步时间
 
 ```Swift
 RingManager.shared.syncTime(date: Date()) { res in
@@ -95,7 +117,7 @@ RingManager.shared.syncTime(date: Date()) { res in
          }
 ```
 
-##### 读取时间
+#### 读取时间
 
 ```Swift
 RingManager.shared.readTime { res in
@@ -108,7 +130,7 @@ RingManager.shared.readTime { res in
           }
 ```
 
-##### 读取软件版本号
+#### 读取软件版本号
 
 ```Swift
 RingManager.shared.readAppVersion { res in
@@ -121,7 +143,7 @@ RingManager.shared.readAppVersion { res in
             }
 ```
 
-##### 读取硬件版本号
+#### 读取硬件版本号
 
 ```Swift
 RingManager.shared.readHardWareVersion { res in
@@ -134,7 +156,7 @@ RingManager.shared.readHardWareVersion { res in
             }
 ```
 
-##### 读取电池电量，若返回的电池电量为101，则表示正在充电中
+#### 读取电池电量，若返回的电池电量为101，则表示正在充电中
 
 ```Swift
 RingManager.shared.readBattery { res in
@@ -147,7 +169,7 @@ RingManager.shared.readBattery { res in
             }
 ```
 
-##### 读取电池充电状态，返回结果为ChargeStatus枚举类型，值有:
+#### 读取电池充电状态，返回结果为ChargeStatus枚举类型，值有:
 
 full：充满
 
@@ -166,7 +188,7 @@ RingManager.shared.readChargeStatus { res in
             }
 ```
 
-##### 输出实时测量心率值，单位BPM
+#### 输出实时测量心率值，单位BPM
 
 ```Swift
 RingManager.shared.readHeartRate(progressBlock: { progress in
@@ -181,7 +203,7 @@ RingManager.shared.readHeartRate(progressBlock: { progress in
             }
 ```
 
-##### 输出心率变异性，单位毫秒(ms)
+#### 输出心率变异性，单位毫秒(ms)
 
 ```Swift
 RingManager.shared.readHRV(progressBlock: { progress in
@@ -196,7 +218,7 @@ RingManager.shared.readHRV(progressBlock: { progress in
             }
 ```
 
-##### 输出实时测量血氧值
+#### 输出实时测量血氧值
 
 ```Swift
 RingManager.shared.readO2(progressBlock: { progress in
@@ -211,7 +233,7 @@ RingManager.shared.readO2(progressBlock: { progress in
             }
 ```
 
-##### 读取当前温度，返回结果单位为摄氏度(℃)
+#### 读取当前温度，返回结果单位为摄氏度(℃)
 
 ```Swift
 RingManager.shared.readTemperature { res in
@@ -224,7 +246,7 @@ RingManager.shared.readTemperature { res in
             }
 ```
 
-##### 读取当天实时步数
+#### 读取当天实时步数
 
 ```Swift
 RingManager.shared.readSteps { res in
@@ -237,7 +259,7 @@ RingManager.shared.readSteps { res in
             }
 ```
 
-##### 清除实时步数
+#### 清除实时步数
 
 ```Swift
 RingManager.shared.clearSteps { res in
@@ -250,7 +272,7 @@ RingManager.shared.clearSteps { res in
             }
 ```
 
-##### 读取本地历史数据，并且内部会将每一条数据存入到数据库中。关于如何从数据库中获取数据，见数据库管理类RingDBManager部分说明
+#### 读取本地历史数据，并且内部会将每一条数据存入到数据库中。关于如何从数据库中获取数据，见数据库管理类RingDBManager部分说明
 
 ```Swift
 RingManager.shared.readDatas { progress, dataModel in
@@ -309,7 +331,7 @@ public enum ReadDataResult {
 
 
 
-##### 删除全部本地数据历史记录
+#### 删除全部本地数据历史记录
 
 ```Swift
 RingManager.shared.clearRingData { res in
@@ -322,7 +344,7 @@ RingManager.shared.clearRingData { res in
             }
 ```
 
-##### 采集周期设置，采集周期设置单位为秒(s)
+#### 采集周期设置，采集周期设置单位为秒(s)
 
 ```Swift
 RingManager.shared.setFrequency(time: time) { res in
@@ -335,7 +357,7 @@ RingManager.shared.setFrequency(time: time) { res in
                 }
 ```
 
-##### 采集周期读取，读取到的采集周期为秒(s)
+#### 采集周期读取，读取到的采集周期为秒(s)
 
 ```Swift
 RingManager.shared.readFrequency { res in
@@ -348,7 +370,7 @@ RingManager.shared.readFrequency { res in
             }
 ```
 
-##### 恢复出厂设置
+#### 恢复出厂设置
 
 ```Swift
 RingManager.shared.reset { res in
@@ -362,7 +384,7 @@ RingManager.shared.reset { res in
 ```
 
 ### OTA相关
-##### 固件升级，参数fileUrl为固件文件所在的本地路径，升级进度以及结果通过handle进行回调，
+#### 固件升级，参数fileUrl为固件文件所在的本地路径，升级进度以及结果通过handle进行回调，
 
 ```Swift
 if let path = Bundle.main.path(forResource: "otafileName", ofType: nil) {
@@ -386,37 +408,37 @@ if let path = Bundle.main.path(forResource: "otafileName", ofType: nil) {
 使用 func readDatas(progressBlock: @escaping (Double, RingDataModel)->Void,
                    resultBlock: @escaping (Result<ReadDataResult, ReadError>)->Void)从设备中获取到的本地历史数据，都会被保存到本地数据库中，访问数据库需要使用RingDBManager类，内部提供了一个单例对象用来操作相关数据，单例对象可通过RingDBManager.shared来获取，以下是相关的API说明。
 
-##### 从数据库中获取指定时间到目前为止的所有历史数据，timestamp参数为10位的时间戳
+#### 从数据库中获取指定时间到目前为止的所有历史数据，timestamp参数为10位的时间戳
 
 ```Swift
 public func getObjects(from timestamp:TimeInterval) -> [RingDataModel]
 ```
 
-##### 从数据库中获取某一天的历史数据（获取到的是该日期当天0时到24时的数据）
+#### 从数据库中获取某一天的历史数据（获取到的是该日期当天0时到24时的数据）
 
 ```Swift
 public func getObjects(of date:Date) -> [RingDataModel]
 ```
 
-##### 从数据库中获取距离当前时间最近的一条历史数据
+#### 从数据库中获取距离当前时间最近的一条历史数据
 
 ```Swift
 public func getLatestObject() -> RingDataModel?
 ```
 
-##### 从数据库中获取某一天的睡眠数据(获取到的是该日期前一天18时到该日期18时的数据)，该部分接口得到的数据主要用于睡眠的计算
+#### 从数据库中获取某一天的睡眠数据(获取到的是该日期前一天18时到该日期18时的数据)，该部分接口得到的数据主要用于睡眠的计算
 
 ```Swift
 public func getSleepObjects(of date:Date) -> [RingDataModel]
 ```
 
-##### 删除本地数据库所有历史数据
+#### 删除本地数据库所有历史数据
 
 ```Swift
 public func deleteAll() -> Bool
 ```
 
-##### 删除从指定时间到目前为止的所有历史数据，timestamp参数为10位的时间戳
+#### 删除从指定时间到目前为止的所有历史数据，timestamp参数为10位的时间戳
 
 ```Swift
 public func deleteAllBeforeTimestamp(timestamp:TimeInterval) -> Bool
@@ -426,26 +448,26 @@ public func deleteAllBeforeTimestamp(timestamp:TimeInterval) -> Bool
 
 该部分代码在RingManager类中，使用RingManager.shared获取单例，然后调用相关API即可
 
-##### 步行距离计算，steps参数为步数，stepSize参数为步长，单位为厘米(cm)，返回结果为距离，单位为米(m)
+#### 步行距离计算，steps参数为步数，stepSize参数为步长，单位为厘米(cm)，返回结果为距离，单位为米(m)
 
 ```Swift
 func calculateDistance(steps:Int,stepSize:Int) -> Float
 ```
 
-##### 睡眠时间计算，获取指定日期的睡眠数据及零星睡眠数据。返回值是一个元祖，元祖的第一个元素($0.0)是睡眠数据集合，第二个元素($0.1)是一个二维数组，是多个零星睡眠段的集合。$0.0数组中的第一个数据点的时间为入睡时间，最后一个数据点的时间为醒来时间，中间的各个数据点时间差累加即为睡眠时间。零星睡眠时长计算同理，使用$0.1数组中的数据分段计算即可。
+#### 睡眠时间计算，获取指定日期的睡眠数据及零星睡眠数据。返回值是一个元祖，元祖的第一个元素($0.0)是睡眠数据集合，第二个元素($0.1)是一个二维数组，是多个零星睡眠段的集合。$0.0数组中的第一个数据点的时间为入睡时间，最后一个数据点的时间为醒来时间，中间的各个数据点时间差累加即为睡眠时间。零星睡眠时长计算同理，使用$0.1数组中的数据分段计算即可。
 
 ```Swift
 func caculateSleepData(targetDate: Date) -> ([RingDataModel], [[RingDataModel]])
 ```
 
-##### 获取睡眠时长，传入睡眠时间数据点集合，即可得出睡眠时长，返回睡眠时长单位为分钟(min)
+#### 获取睡眠时长，传入睡眠时间数据点集合，即可得出睡眠时长，返回睡眠时长单位为分钟(min)
 
 ```Swift
 func calculateSleepTimes(sleepDatas:[RingDataModel]) -> Int
 ```
 
 ### 日志配置
-##### 设置日志保存路径，默认保存在沙盒的Document中。可通过以下API修改默认保存路径
+#### 设置日志保存路径，默认保存在沙盒的Document中。可通过以下API修改默认保存路径
 ```Swift
 func configLogPath(directoryPath: String = defaultLogDirectoryPath)
 ```
