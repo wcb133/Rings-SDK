@@ -211,6 +211,19 @@ RingManager.shared.readO2(progressBlock: { progress in
             }
 ```
 
+##### 读取当前温度，返回结果单位为摄氏度(℃)
+
+```Swift
+RingManager.shared.readTemperature { res in
+                switch res {
+                case .success(let value):
+                    BDLogger.info("温度=====>\(value)")
+                case .failure(let error):
+                    BDLogger.info("失败=====>\(error)")
+                }
+            }
+```
+
 ##### 读取当天实时步数
 
 ```Swift
