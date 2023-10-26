@@ -18,6 +18,8 @@
 ​	支持 iOS 版本：iOS 13.0+
 
 ​	支持的语言版本：Swift 5.0+
+​   
+​    开发工具: xcode 15+   
 
 ## 安装使用
 
@@ -92,7 +94,7 @@ let currentDevice = RingManager.shared.currentDevice
 let isDidConnect = RingManager.shared.isDidConnect
 ```
 
-    
+
 #### 设备连接状态变化监听
 
 ```Swift
