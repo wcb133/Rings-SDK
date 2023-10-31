@@ -14,6 +14,7 @@ import QMUIKit
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        RingDBManager.shared.getLatestObject()
 //        RingManager.shared.caculateSleepData(targetDate: <#T##Date#>)
     }
 

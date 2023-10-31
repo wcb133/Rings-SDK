@@ -295,7 +295,7 @@ PODS:
     - QMUIKit/QMUILog
   - QMUIKit/QMUIResources (4.6.3)
   - QMUIKit/QMUIWeakObjectContainer (4.6.3)
-  - Rings-SDK (0.1.1):
+  - Rings-SDK (0.1.3):
     - WCDB.swift
   - WCDB.swift (2.0.4):
     - WCDB.swift/no-arc (= 2.0.4)
@@ -320,7 +320,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   QMUIKit: b831835f33d7fb3494809042225e6256eb22b892
-  Rings-SDK: f6514a71784773a52ad89d664d52ec1d6b5717ed
+  Rings-SDK: a270c96d3dcd859cec9839825be953a097ed1964
   WCDB.swift: 28dd96180d913abadb3ea9cf99bd6e942262379a
   WCDBOptimizedSQLCipher: ef2be79fed278289a309ad0d4d707c55bf166d6d
 

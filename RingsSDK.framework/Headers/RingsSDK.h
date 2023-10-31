@@ -2,7 +2,7 @@
 //  RingsSDK.h
 //  RingsSDK
 //
-//  Created by weicb on 2023/10/7.
+//  Created by weicb on 2023/10/31.
 //
 
 #import <Foundation/Foundation.h>
