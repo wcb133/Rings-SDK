@@ -456,7 +456,7 @@ public func deleteAllBeforeTimestamp(timestamp:TimeInterval) -> Bool
 func calculateDistance(steps:Int,stepSize:Int) -> Float
 ```
 
-#### 睡眠时间计算，获取指定日期的睡眠数据及零星睡眠数据。返回值是一个元祖，元祖的第一个元素($0.0)是睡眠数据集合，第二个元素($0.1)是一个二维数组，是多个零星睡眠段的集合。$0.0数组中的第一个数据点的时间为入睡时间，最后一个数据点的时间为醒来时间，中间的各个数据点时间差累加即为睡眠时间。零星睡眠时长计算同理，使用$0.1数组中的数据分段计算即可。
+#### 睡眠时间计算，获取指定日期的睡眠数据及零星睡眠数据。返回值是一个元组，元组的第一个元素($0.0)是睡眠数据集合，第二个元素($0.1)是一个二维数组，是多个零星睡眠段的集合。$0.0数组中的第一个数据点的时间为入睡时间，最后一个数据点的时间为醒来时间，中间的各个数据点时间差累加即为睡眠时间。零星睡眠时长计算同理，使用$0.1数组中的数据分段计算即可。
 
 ```Swift
 func caculateSleepData(targetDate: Date) -> ([RingDataModel], [[RingDataModel]])
@@ -473,6 +473,99 @@ func calculateSleepTimes(sleepDatas:[RingDataModel]) -> Int
 ```Swift
 func configLogPath(directoryPath: String = defaultLogDirectoryPath)
 ```
+
+### 常见问答Q&A
+##### Q：戒指的数据是如何产生的，产生的数据结构是怎么样的？
+##### A：戒指每隔一定时间（默认是5分钟）就会进行一次自动测试，测试的内容包括心率、血氧、心率变异性、睡眠状态等，从而产生一个采样数据点，一个数据点对应一个RingDataModel模型对象，该采样数据会存储在戒指当中，随着时间的推移，戒指中存储的数据点会越来越多，但是最多只会保存最近7天的数据。
+
+
+##### Q：如何使用SDK从戒指中读取数据？
+##### A：连接上戒指后，戒指中的数据不会主动上报，需要自己调用相应的SDK方法去获取，可使用以下方法去读取戒指中的数据
+```Swift
+ func readDatas(progressBlock: @escaping (Double, RingDataModel)->Void, resultBlock: @escaping (Result<ReadDataResult, ReadError>)->Void)
+```
+ 注：首次调用该方法，将会读取戒指中存储的全部历史数据点，成功获取全部历史数据之后，再调用该方法，只会读取戒指中未被读取过的新的数据点，若戒指无新数据产生或者戒指中数据已被读取过，调用该方法获取到的数据将会为空。该方法内部会将获取到的所有数据点都存入到SDK内置的本地数据库中。
+
+
+##### Q：如何从SDK内置的数据库中获取指定日期的数据？
+##### A：当我们将戒指中的数据读取上来之后，可使用RingDBManager管理类获取相关数据，可使用getObjects(of date:Date)获取指定日期数据。如获取今天的数据
+```Swift
+// 从数据库中获取今日数据
+let date = Date()
+let datasOfToday = RingDBManager.shared.getObjects(of: date)
+```
+
+
+##### Q：使用该SDk开发App，获取数据的一般流程？
+##### A：在连接设备之后，使用以下方法读取戒指中的数据
+```
+func readDatas(progressBlock: @escaping (Double, RingDataModel)->Void, resultBlock: @escaping (Result<ReadDataResult, ReadError>)->Void)
+```
+获取成功之后，再调用以下方法从数据库中获取指定日期的数据，从而得到最新数据。
+```
+func getObjects(of date:Date) -> [RingDataModel]
+```
+##### Q：如何获取睡眠数据？
+##### A：连接设备之后，使用以下方法读取戒指中的数据
+```
+func readDatas(progressBlock: @escaping (Double, RingDataModel)->Void, resultBlock: @escaping (Result<ReadDataResult, ReadError>)->Void)
+```
+获取成功之后，再调用以下方法从数据库中获取指定日期的睡眠数据。
+```
+func caculateSleepData(targetDate: Date) -> ([RingDataModel], [[RingDataModel]])
+```
+返回值是一个元组，元组的第一个元素($0.0)是睡眠数据集合，其中第一个数据点即为睡眠入睡点的数据，最后一个数据点即为睡眠醒来点的数据。
+元组的第二个元素($0.1)是一个二维数组，是多个零星睡眠段的集合。其中的每个数组的含义与上面所述相同。
+
+##### Q：获取到睡眠数据之后如何获得入睡时间、醒来时间、睡眠时间，如何统计清醒时长、浅睡时长、深睡时长、眼动期时长？
+##### A：如下例子所示
+```
+        // 获取昨晚的睡眠数据
+        let date = Date()
+        let allDatasOfSleeps = RingManager.shared.caculateSleepData(targetDate: date)
+        let datas = allDatasOfSleeps.0
+        print("入睡时间 ======>\(String(describing: datas.first?.timestamp))")
+        print("醒来时间 ======>\(String(describing: datas.last?.timestamp))")
+   
+        let sleepTimes = RingManager.shared.calculateSleepTimes(sleepDatas: datas)
+        print("睡眠时间 ======>\(sleepTimes)分钟")
+        
+        
+        var lastModel:RingDataModel?
+        // 清醒时长，单位秒
+        var wakeTimes:UInt32 = 0
+        // 浅睡时长，单位秒
+        var lightSleepTimes:UInt32 = 0
+        // 深睡时长，单位秒
+        var deepSLeepTimes:UInt32 = 0
+        // 眼动期时长，单位秒
+        var eyesTimes:UInt32 = 0
+        datas.forEach { model in
+            if let tempLastModel = lastModel {
+                switch model.sleepType {
+                case 1:// 清醒
+                    wakeTimes += model.timestamp - tempLastModel.timestamp
+                case 2:// 浅睡
+                    lightSleepTimes += model.timestamp - tempLastModel.timestamp
+                case 3:// 深睡
+                    deepSLeepTimes += model.timestamp - tempLastModel.timestamp
+                case 4:// 眼动
+                    eyesTimes += model.timestamp - tempLastModel.timestamp
+                default :
+                    break
+                }
+                lastModel = model
+            }else{
+                lastModel = model
+            }
+        }
+        
+        print("清醒时长 ======>\(wakeTimes)")
+        print("浅睡时长 ======>\(lightSleepTimes)")
+        print("深睡时长 ======>\(deepSLeepTimes)")
+        print("眼动时长 ======>\(eyesTimes)")
+```
+
 
 ## Author
 
