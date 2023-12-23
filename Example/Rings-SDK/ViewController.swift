@@ -7,15 +7,17 @@
 //
 
 import UIKit
-//import Rings_iOS_SDK
- import RingsSDK
+// import Rings_iOS_SDK
+import RingsSDK
 import QMUIKit
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        RingDBManager.shared.getLatestObject()
-//        RingManager.shared.caculateSleepData(targetDate: <#T##Date#>)
+//       let lastModel = RingDBManager.shared.getLatestObject()
+//        print("最新一条=======>\(lastModel)")
+//        let lastModels = RingDBManager.shared.getObjects(from: 1702545773)
+//        print("指定数据=======>\(lastModels)")
     }
 
     @IBAction func startOrStopScanAction(_ sender: UIButton) {
@@ -35,7 +37,7 @@ class ViewController: UIViewController {
     //  连接设备
     func connectDevice(device: DeviceInfo) {
         BDLogger.info(" ========> 开始连接设备")
-        
+
         RingManager.shared.startConnect(deviceUUID: device.uuidString, resultBlock: { res in
             switch res {
             case .success(let deviceInfo):
@@ -50,7 +52,7 @@ class ViewController: UIViewController {
     @IBAction func disconnectAction(_ sender: UIButton) {
         RingManager.shared.disconnect()
     }
-    
+
     @IBAction func btnAction(_ sender: UIButton) {
         let manager = RingManager.shared
         switch sender.tag {
@@ -127,7 +129,7 @@ class ViewController: UIViewController {
                     BDLogger.info("失败=====>\(failure)")
                 }
             }
-            
+
         case 8: // 读取软件版本号
             manager.readAppVersion { res in
                 switch res {

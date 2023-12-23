@@ -30,5 +30,4 @@ Pod::Spec.new do |s|
   s.source_files = 'Rings-SDK/Classes/*'
 
   s.vendored_frameworks = 'RingsSDK.framework'
-  s.dependency 'WCDB.swift'
 end

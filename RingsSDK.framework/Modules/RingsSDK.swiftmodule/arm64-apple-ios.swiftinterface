@@ -8,9 +8,9 @@ import Dispatch
 import Foundation
 import ObjectiveC
 @_exported import RingsSDK
+import SQLite3
 import Swift
 import UIKit
-import WCDBSwift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
@@ -1648,7 +1648,7 @@ extension Swift.Int {
 extension Foundation.FileManager {
   public func shareFile(filePath: Swift.String, resultBlock: @escaping ((_ result: Swift.Bool) -> Swift.Void))
 }
-@objc @_hasMissingDesignatedInitializers final public class RingDataModel : ObjectiveC.NSObject, WCDBSwift.TableCodable {
+@objc @_hasMissingDesignatedInitializers final public class RingDataModel : ObjectiveC.NSObject {
   final public var total: Swift.UInt32
   final public var serialNum: Swift.UInt32
   final public var timestamp: Swift.UInt32
@@ -1662,39 +1662,10 @@ extension Foundation.FileManager {
   final public var sleepType: Swift.Int
   final public var RRNums: Swift.Int
   final public var rrs: [Swift.Int]
-  public enum CodingKeys : Swift.String, WCDBSwift.CodingTableKey {
-    public typealias Root = RingsSDK.RingDataModel
-    public static let objectRelationalMapping: WCDBSwift.TableBinding<RingsSDK.RingDataModel.CodingKeys>
-    case timestamp
-    case stepsOfTheDay
-    case rate
-    case O2
-    case hrv
-    case mentalStress
-    case temp
-    case isRunning
-    case sleepType
-    case RRNums
-    public init?(rawValue: Swift.String)
-    public init?(stringValue: Swift.String)
-    public init?(intValue: Swift.Int)
-    public typealias RawValue = Swift.String
-    public var intValue: Swift.Int? {
-      get
-    }
-    public var rawValue: Swift.String {
-      get
-    }
-    public var stringValue: Swift.String {
-      get
-    }
-  }
   @objc override final public var description: Swift.String {
     @objc get
   }
   @objc deinit
-  final public func encode(to encoder: any Swift.Encoder) throws
-  public init(from decoder: any Swift.Decoder) throws
 }
 public struct Region : Swift.Decodable, Swift.Encodable, Swift.Equatable, Swift.Hashable, Swift.CustomStringConvertible {
   public let calendar: Foundation.Calendar
@@ -2910,8 +2881,6 @@ open class FileDestination : RingsSDK.BaseDestination {
   public func getLatestObject() -> RingsSDK.RingDataModel?
   @discardableResult
   public func deleteAll() -> Swift.Bool
-  @discardableResult
-  public func deleteAllBeforeTimestamp(timestamp: Foundation.TimeInterval) -> Swift.Bool
   @objc deinit
 }
 extension RingsSDK.RelativeFormatterLanguage : Swift.Equatable {}
