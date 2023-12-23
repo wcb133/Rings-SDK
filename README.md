@@ -23,7 +23,7 @@
 
 ## 安装使用
 
-​	该SDK由于使用数据库进行管理数据，外部依赖于WCDB框架，所以使用CocoaPods进行管理，目前仅支持使用CocoaPods的方式进行导入使用。首先在你的项目的Podfile文件中新增一个Spec源，即将下面的语句复制粘贴到项目中的Podfile最上方：
+##### 	使用CocoaPods进行管理。首先在你的项目的Podfile文件中新增一个Spec源，即将下面的语句复制粘贴到项目中的Podfile最上方：
 
 ```ruby
 source 'https://github.com/wcb133/RingSpec.git'
@@ -47,7 +47,10 @@ pod install
 import RingsSDK
 ```
 
+
+
 ## API说明
+
 ### 设备连接相关
 #### 搜索附近的蓝牙设备，开始搜索后可通过回调获取搜索到的设备列表，也可通过 RingManager.shared.devices属性获取当前搜索到的设备
 
