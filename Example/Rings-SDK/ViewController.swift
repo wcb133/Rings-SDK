@@ -90,7 +90,11 @@ class ViewController: UIViewController {
         case 4: // 读取心率
             manager.readHeartRate(progressBlock: { progress in
                 BDLogger.info(" 进度 =====>\(progress)")
-            }) { res in
+            }, isOpenWave: true) { seq, num, datas in
+                BDLogger.info("序号 ====>\(seq)")
+                BDLogger.info("数据个数 ====>\(num)")
+                BDLogger.info("波形数据 ====>\(datas)")
+            } resultBlock: { res in
                 switch res {
                 case .success(let success):
                     BDLogger.info("成功=====>\(success)")
@@ -101,7 +105,11 @@ class ViewController: UIViewController {
         case 5: // 读取血氧
             manager.readO2(progressBlock: { progress in
                 BDLogger.info(" 进度 =====>\(progress)")
-            }) { res in
+            }, isOpenWave: true) { seq, num, datas in
+                BDLogger.info("序号 ====>\(seq)")
+                BDLogger.info("数据个数 ====>\(num)")
+                BDLogger.info("波形数据 ====>\(datas)")
+            } resultBlock: { res in
                 switch res {
                 case .success(let success):
                     BDLogger.info("成功=====>\(success)")
@@ -112,7 +120,11 @@ class ViewController: UIViewController {
         case 6: // 读取心率变异性
             manager.readHRV(progressBlock: { progress in
                 BDLogger.info(" 进度 =====>\(progress)")
-            }) { res in
+            }, isOpenWave: true) { seq, num, datas in
+                BDLogger.info("序号 ====>\(seq)")
+                BDLogger.info("数据个数 ====>\(num)")
+                BDLogger.info("波形数据 ====>\(datas)")
+            } resultBlock: { res in
                 switch res {
                 case .success(let success):
                     BDLogger.info("成功=====>\(success)")
