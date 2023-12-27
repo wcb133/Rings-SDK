@@ -193,47 +193,59 @@ RingManager.shared.readChargeStatus { res in
             }
 ```
 
-#### 输出实时测量心率值，单位BPM
+#### 输出实时测量心率值，单位BPM。只有当设置isOpenWave为true时，才会读取波形数据，并且通过tableBlock闭包回调。
 
 ```Swift
 RingManager.shared.readHeartRate(progressBlock: { progress in
-                print(" 测量进度 =====>\(progress)")
-            }) { res in
+                print(" 进度 =====>\(progress)")
+            }, isOpenWave: true) { seq, num, datas in
+                print("序号 ====>\(seq)")
+                print("数据个数 ====>\(num)")
+                print("波形数据 ====>\(datas)")
+            } resultBlock: { res in
                 switch res {
-                case .success(let value):
-                    print("心率=====>\(value)")
-                case .failure(let error):
-                    print("失败=====>\(error)")
+                case .success(let success):
+                    print("成功=====>\(success)")
+                case .failure(let failure):
+                    print("失败=====>\(failure)")
                 }
             }
 ```
 
-#### 输出心率变异性，单位毫秒(ms)
+#### 输出心率变异性，单位毫秒(ms)。只有当设置isOpenWave为true时，才会读取波形数据，并且通过tableBlock闭包回调。
 
 ```Swift
 RingManager.shared.readHRV(progressBlock: { progress in
-                print(" 测量进度 =====>\(progress)")
-            }) { res in
+                BDLogger.info(" 进度 =====>\(progress)")
+            }, isOpenWave: true) { seq, num, datas in
+                BDLogger.info("序号 ====>\(seq)")
+                BDLogger.info("数据个数 ====>\(num)")
+                BDLogger.info("波形数据 ====>\(datas)")
+            } resultBlock: { res in
                 switch res {
-                case .success(let value):
-                    print("心率变异性=====>\(value)")
-                case .failure(let error):
-                    print("失败=====>\(error)")
+                case .success(let success):
+                    BDLogger.info("成功=====>\(success)")
+                case .failure(let failure):
+                    BDLogger.info("失败=====>\(failure)")
                 }
             }
 ```
 
-#### 输出实时测量血氧值
+#### 输出实时测量血氧值。只有当设置isOpenWave为true时，才会读取波形数据，并且通过tableBlock闭包回调。
 
 ```Swift
 RingManager.shared.readO2(progressBlock: { progress in
-                print(" 测量进度 =====>\(progress)")
-            }) { res in
+                BDLogger.info(" 进度 =====>\(progress)")
+            }, isOpenWave: true) { seq, num, datas in
+                BDLogger.info("序号 ====>\(seq)")
+                BDLogger.info("数据个数 ====>\(num)")
+                BDLogger.info("波形数据 ====>\(datas)")
+            } resultBlock: { res in
                 switch res {
-                case .success(let value):
-                    print("血氧值=====>\(value)")
-                case .failure(let error):
-                    print("失败=====>\(error)")
+                case .success(let success):
+                    BDLogger.info("成功=====>\(success)")
+                case .failure(let failure):
+                    BDLogger.info("失败=====>\(failure)")
                 }
             }
 ```
