@@ -22,11 +22,11 @@
 		</data>
 		<key>Modules/RingsSDK.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		UyPRQXy0dMd35Z2On2V6vQxBqUg=
+		jMq4SWFotv4zZFmU6ypQHUtBg6I=
 		</data>
 		<key>Modules/RingsSDK.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		l9OZjuvW4KlMf8SURtnNzCpmn4c=
+		xuICMB2CcjH6FkGZhe+1gLOGMIQ=
 		</data>
 		<key>Modules/RingsSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
@@ -580,22 +580,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UyPRQXy0dMd35Z2On2V6vQxBqUg=
+			jMq4SWFotv4zZFmU6ypQHUtBg6I=
 			</data>
 			<key>hash2</key>
 			<data>
-			rOr5SKVGlR20asWIBhU+M/W+IhDEX/Jb7CnA5Meawvo=
+			aROnkiuwc3RPeYKzXAqY5nMVrxOI638TQ4jKk8xQM50=
 			</data>
 		</dict>
 		<key>Modules/RingsSDK.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			l9OZjuvW4KlMf8SURtnNzCpmn4c=
+			xuICMB2CcjH6FkGZhe+1gLOGMIQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			RiXdCPPSs5wYFMJLUiaRo3MhZtht4AroN2o9Gm2D2+U=
+			wy2rYXwwAQ77MqAyr6+Ead8jIBCmaXrwTT3Q3gfS4Yg=
 			</data>
 		</dict>
 		<key>Modules/RingsSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
